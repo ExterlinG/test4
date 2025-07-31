@@ -1,5 +1,6 @@
 #include <DxLib.h>
 #include "App.h"
+#include "Game.h"
 
 // ƒvƒƒOƒ‰ƒ€‚Í WinMain ‚©‚çŽn‚Ü‚è‚Ü‚·
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
@@ -16,19 +17,32 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		return -1;			// ƒGƒ‰[‚ª‹N‚«‚½‚ç’¼‚¿‚ÉI—¹
 	}
 	SetDrawScreen(DX_SCREEN_BACK);
-	AppInit();	//‰Šú‰»
+	Game game;
+	try {
+		game.Initialize();
+	}
+	catch (const std::exception& e) {
+		MessageBox(NULL, e.what(), "Initialization Error", MB_OK);
+		DxLib_End();
+		return -1;
+	}
+	//AppInit();	//‰Šú‰»
 	int mStartTime = GetNowCount();
 	while (ProcessMessage() >= 0 && CheckHitKey(KEY_INPUT_ESCAPE) == 0 ) {
 		int cur = GetNowCount();
 		if (cur < mStartTime + 16) //120fps‘Îô
 			continue;
 		mStartTime = cur;
-		AppUpdate();	//ˆ—
+		//AppUpdate();	//ˆ—
 		ClearDrawScreen();
-		AppDraw();	//•`‰æ
+		game.HandleInput(); // „O„q„‚„p„q„€„„„{„p „r„r„€„t„p
+		game.Update();      // „O„q„~„€„r„|„u„~„y„u „ƒ„€„ƒ„„„€„‘„~„y„‘
+		game.Render();      // „O„„„‚„y„ƒ„€„r„{„p
+		//AppDraw();	//•`‰æ
 		ScreenFlip();
 	}
-	AppRelease();
+	//AppRelease();
+	game.Cleanup();
 	DxLib_End();				// ‚c‚wƒ‰ƒCƒuƒ‰ƒŠŽg—p‚ÌI—¹ˆ—
 
 	return 0;				// ƒ\ƒtƒg‚ÌI—¹ 
