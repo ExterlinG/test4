@@ -12,12 +12,12 @@ public:
     void Initialize();
     void Cleanup();
     bool ShouldQuit() const;
-    void Update()
+    void Update(float deltaTime)
     {
         enemyAI.Update();
     }
     void Render();
-    Player player;
+
     AI enemyAI;
     Game() : enemyAI(this) {} // „P„u„‚„u„t„p„u„} „ƒ„ƒ„„|„{„… „~„p „y„s„‚„…
     std::vector<Ship> activeShips;
@@ -25,10 +25,15 @@ public:
     void HandleGlobalInput() {
         player.HandleInput(planets);
     }
-
+    void CreateShip(Planet* source, Planet* target, int count, Owner owner);
+    std::vector<Planet>& GetPlanets() { return planets; }
+    void SetAIDifficulty(int level) { ai.SetDifficulty(level); }
 private:
     std::vector<Planet> planets;
+    std::vector<Ship> ships;
     bool isRunning;
+    Player player;
+    AI ai;
     // „D„€„q„p„r„„„„u „t„‚„…„s„y„u „y„s„‚„€„r„„u „ƒ„€„ƒ„„„€„‘„~„y„‘ „„€ „~„u„€„q„‡„€„t„y„}„€„ƒ„„„y
 };
 

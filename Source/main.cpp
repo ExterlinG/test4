@@ -36,10 +36,16 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		//AppUpdate();	//ˆ—
 		ClearDrawScreen();
 		game.HandleInput(); // „O„q„‚„p„q„€„„„{„p „r„r„€„t„p
-		game.Update();      // „O„q„~„€„r„|„u„~„y„u „ƒ„€„ƒ„„„€„‘„~„y„‘
+	     // „O„q„~„€„r„|„u„~„y„u „ƒ„€„ƒ„„„€„‘„~„y„‘
 		game.Render();      // „O„„„‚„y„ƒ„€„r„{„p
 		//AppDraw();	//•`‰æ
 		ScreenFlip();
+
+		float lastTime = GetNowCount();
+		float currentTime = GetNowCount();
+		float deltaTime = (currentTime - lastTime) / 1000.0f;
+		lastTime = currentTime;
+		game.Update(deltaTime);
 	}
 	//AppRelease();
 	game.Cleanup();

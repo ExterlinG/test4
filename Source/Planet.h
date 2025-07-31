@@ -2,9 +2,9 @@
 #include "DxLib.h"
 
 enum class Owner {
-    NEUTRAL = 0,
-    PLAYER = 1,
-    ENEMY = 2
+    NEUTRAL,
+    PLAYER,
+    ENEMY
 };
 
 class Planet {
